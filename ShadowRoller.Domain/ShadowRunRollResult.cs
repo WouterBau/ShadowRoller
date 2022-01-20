@@ -19,7 +19,7 @@ public class ShadowRunRollResult
         get
         {
             if (HitLimit.HasValue && HitLimit.Value < GrossAmountHits)
-                return HitLimit;
+                return HitLimit.Value;
             return GrossAmountHits;
         }
     }
