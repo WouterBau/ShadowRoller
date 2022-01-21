@@ -7,7 +7,7 @@ public class ShadowRunRoller
     {
         var diceRolls = new List<int>();
         var rnd = new Random();
-        while(diceRolls.Count < amount){
+        while (diceRolls.Count < amount){
             var value = rnd.Next(MIN, MAX);
             diceRolls.Add(value);
         }
@@ -16,7 +16,7 @@ public class ShadowRunRoller
             HitLimit = hitLimit
         };
     }
-    public static ShadowRunRollResult RollAmountByAttributes(int[] attributeValues, int? hitLimit = null)
+    public static ShadowRunRollResult RollByAttributes(int[] attributeValues, int? hitLimit = null)
     {
         if (attributeValues.Any(x => x <= 0))
             throw new ArgumentException("Attributes should be positive integers");

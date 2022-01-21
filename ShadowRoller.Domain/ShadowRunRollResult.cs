@@ -7,7 +7,7 @@ public class ShadowRunRollResult
         get => _diceResults;
         init
         {
-            if(value == null)
+            if (value == null)
                 return;
             _diceResults = value.Where(x => 1 <= x && x <= 6);
         }

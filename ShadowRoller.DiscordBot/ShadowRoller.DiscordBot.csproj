@@ -14,4 +14,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ShadowRoller.Domain\ShadowRoller.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
