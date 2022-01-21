@@ -46,7 +46,7 @@ public class DiscordBot
     private async Task Roll(DiscordClient sender, MessageCreateEventArgs e, string[] args)
     {
         var parsedValues = ParseValues(args);
-        if(!parsedValues.Values.Any())
+        if (!parsedValues.Values.Any())
         {
             await sender.SendMessageAsync(e.Message.Channel, "Invalid input");
             return;
@@ -100,7 +100,7 @@ public class DiscordBot
             else
             {
                 var value = GetValue(arg);
-                if(value.HasValue)
+                if (value.HasValue)
                     values.Add(value.Value);
             }
         }

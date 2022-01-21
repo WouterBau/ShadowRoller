@@ -7,11 +7,13 @@ public class ShadowRunRoller
     {
         var diceRolls = new List<int>();
         var rnd = new Random();
-        while (diceRolls.Count < amount){
+        while (diceRolls.Count < amount)
+        {
             var value = rnd.Next(MIN, MAX);
             diceRolls.Add(value);
         }
-        return new ShadowRunRollResult {
+        return new ShadowRunRollResult
+        {
             DiceResults = diceRolls,
             HitLimit = hitLimit
         };

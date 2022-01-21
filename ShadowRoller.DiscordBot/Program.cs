@@ -11,7 +11,8 @@ var config = new ConfigurationBuilder()
 var cancellationTokenSource = new CancellationTokenSource();
 
 var discordClient = new DiscordClient(
-    new DiscordConfiguration{
+    new DiscordConfiguration
+    {
         AutoReconnect = true,
         MinimumLogLevel = Microsoft.Extensions.Logging.LogLevel.Debug,
         Token = config["discord:token"],
@@ -23,6 +24,7 @@ var discordBot = new DiscordBot(discordClient, cancellationTokenSource);
 
 await discordClient.ConnectAsync();
 
-while(!cancellationTokenSource.IsCancellationRequested){
+while(!cancellationTokenSource.IsCancellationRequested)
+{
 
 }
