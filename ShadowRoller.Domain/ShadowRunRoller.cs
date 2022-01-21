@@ -2,7 +2,7 @@
 public class ShadowRunRoller
 {
     private const int MIN = 1;
-    private const int MAX = 6;
+    private const int MAX = 7; //Is exclusive
     public static ShadowRunRollResult RollAmountDice(int amount, int? hitLimit = null)
     {
         var diceRolls = new List<int>();

@@ -76,7 +76,7 @@ public class DiscordBot
     private async Task Evaluate(DiscordClient sender, MessageCreateEventArgs e, ShadowRunRollResult rollResult)
     {
         var sb = new StringBuilder();
-        sb.AppendLine($"{e.Message.Author} Rolled: {string.Join(" ", rollResult.DiceResults)}");
+        sb.AppendLine($"{e.Message.Author.Username} Rolled: {string.Join(" ", rollResult.DiceResults)} Limit: {rollResult.HitLimit}");
         sb.AppendLine($"Net amount hits: {rollResult.NetAmountHits} Amount misses: {rollResult.AmountMisses}");
         if (rollResult.HasGlitchedCritically)
             sb.AppendLine("CRITICAL GLITCH!!");
@@ -109,8 +109,7 @@ public class DiscordBot
 
     private int? GetHitLimit(string arg)
     {
-        arg.Replace("[", "");
-        arg.Replace("]", "");
+        arg = arg.Replace("[", "").Replace("]", "");
         return GetValue(arg);
     }
 
