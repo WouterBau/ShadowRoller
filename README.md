@@ -8,12 +8,24 @@ Commands always start with `!sr-` to trigger the robot to answer and calculate.
 
 ### Roll amount dice
 `!sr-roll X [Y]`
+
 Ex.: `!sr-roll 4 [2]`
-- `X` : Amount of dice to roll
+
+- `X` : Amount of dice to roll.
 - `[Y]` : Limit of hits (Optional)
 
 ### Test by abilities and skills
 `!sr-test X Y ... [Z]`
+
 Ex.: `!sr-test 1 4 2`
+
 - `X Y ...` : List of attribute and skill values to use in a test. It makes a sum of these values to use as the dice pool for the roll.
+- `[Z]` : Limit of hits (Optional)
+
+### Evaluate 
+`!sr-eval X Y ... [Z]`
+
+Ex.: `!sr-test 5 6 2 [2]`
+
+- `X Y ...` : List of dice roll values to evaluate to calculate the result.
 - `[Z]` : Limit of hits (Optional)
