@@ -25,7 +25,7 @@ Ex.: `!sr-test 1 4 2`
 ### Evaluate 
 `!sr-eval X Y ... [Z]`
 
-Ex.: `!sr-test 5 6 2 [2]`
+Ex.: `!sr-eval 5 6 2 [2]`
 
 - `X Y ...` : List of dice roll values to evaluate to calculate the result.
 - `[Z]` : Limit of hits (Optional)
