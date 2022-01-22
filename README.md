@@ -12,8 +12,8 @@ Ex.: `!sr-roll 4 [2]`
 - `X` : Amount of dice to roll
 - `[Y]` : Limit of hits (Optional)
 
-### Test by abilities
+### Test by abilities and skills
 `!sr-test X Y ... [Z]`
 Ex.: `!sr-test 1 4 2`
-- `X Y ...` : List of attribute and skill values to use in a test
+- `X Y ...` : List of attribute and skill values to use in a test. It makes a sum of these values to use as the dice pool for the roll.
 - `[Z]` : Limit of hits (Optional)
