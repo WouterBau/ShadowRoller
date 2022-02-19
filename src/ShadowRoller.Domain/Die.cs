@@ -11,7 +11,7 @@ public class Die {
     }
     public int Roll()
     {
-        var value = DiceRoller.NextRandom(AmountSides);
+        var value = RollRandomizer.NextRandom(AmountSides);
         LastResult = value;
         return value;
     }

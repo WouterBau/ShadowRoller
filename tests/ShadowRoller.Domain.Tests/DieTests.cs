@@ -8,14 +8,16 @@ public class DieTests
     public void NoZeroAmountSidesAllowed()
     {
         Assert.Throws<InvalidAmountSidesException>(
-            () => new Die(0));
+            () => new Die(0)
+        );
     }
 
     [Fact]
     public void NoNegativeMaxValueAllowed()
     {
         Assert.Throws<InvalidAmountSidesException>(
-            ()=> new Die(-1));
+            ()=> new Die(-1)
+        );
     }
 
     [Theory]

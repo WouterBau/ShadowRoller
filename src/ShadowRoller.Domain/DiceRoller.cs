@@ -1,15 +1,6 @@
 namespace ShadowRoller.Domain;
 public static class DiceRoller
 {
-    private static Random _randomizer = new Random();
-
-    public static int NextRandom(int maxValue)
-    {
-        var value = _randomizer.Next(maxValue);
-        value++;
-        return value;
-    }
-
     private const int MIN = 1;
 
     public static int RollSumWithModifiers(int amount, int maxValue, IEnumerable<int> modifiers)

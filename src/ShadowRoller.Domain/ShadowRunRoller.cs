@@ -1,4 +1,6 @@
-﻿namespace ShadowRoller.Domain;
+﻿using ShadowRoller.Domain.Contexts.ShadowRun;
+
+namespace ShadowRoller.Domain;
 public class ShadowRunRoller
 {
     private const int MAX = 6;
