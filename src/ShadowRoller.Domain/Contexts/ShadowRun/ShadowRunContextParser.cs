@@ -7,28 +7,24 @@ public class ShadowRunContextParser : IRollContextParser<ShadowRunContext, Shado
         var dice = new List<Die>();
         int? hitLimit = null;
         foreach (var arg in arguments.Select(x => x.Trim()))
-        {
             if (arg.StartsWith('[') && arg.EndsWith(']'))
-            {
                 hitLimit = GetHitLimit(arg);
-                if (hitLimit.HasValue)
-                    break;
-            }
             else
-            {
-                dice.AddRange(GetDice(arg));
-            }
-        }
+                AlterDicePool(arg, dice);
 
         return new ShadowRunContext(dice, hitLimit);
     }
 
-    private ICollection<Die> GetDice(string arg)
+    private void AlterDicePool(string arg, ICollection<Die> dice)
     {
+        var result = new List<Die>();
         var amountDice = GetValue(arg);
         if (!amountDice.HasValue)
-            return new Die[]{};
-        return new Die[]{}; //TODO
+            return;
+        if (amountDice.Value >= 0)
+            result.AddRange(Enumerable.Repeat(new Die(AMOUNTSIDES), amountDice.Value));
+        else
+            result.RemoveRange(0, Math.Abs(amountDice.Value));
     }
 
     private int? GetHitLimit(string arg)
@@ -39,6 +35,7 @@ public class ShadowRunContextParser : IRollContextParser<ShadowRunContext, Shado
 
     private int? GetValue(string arg)
     {
+        arg = arg.Trim();
         if (int.TryParse(arg, out var value))
             return value;
         return null;
