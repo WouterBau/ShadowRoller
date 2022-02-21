@@ -9,4 +9,15 @@ public abstract class RollContext<T> where T : IRollResult
     }
 
     public abstract T Resolve();
+
+    protected IEnumerable<int> RollDice()
+    {
+        var rollResults = new List<int>();
+        foreach(var die in Dice)
+        {
+            var rollResult = die.Roll();
+            rollResults.Add(rollResult);
+        }
+        return rollResults;
+    }
 }

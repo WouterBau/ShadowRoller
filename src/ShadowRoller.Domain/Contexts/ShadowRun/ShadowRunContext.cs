@@ -5,18 +5,13 @@ public class ShadowRunContext : RollContext<ShadowRunRollResult>
     private int? HitLimit { get; init; }
     public ShadowRunContext(ICollection<Die> dice, int? hitLimit = null) : base(dice)
     {
-        if(dice.Any(x => x.AmountSides > 6))
+        if(dice.Any(x => x.AmountSides > MAXAMOUNTSIDES))
             throw new InvalidAmountSidesException();
         HitLimit = hitLimit;
     }
     public override ShadowRunRollResult Resolve()
     {
-        var rollResults = new List<int>();
-        foreach(var die in Dice)
-        {
-            var rollResult = die.Roll();
-            rollResults.Add(rollResult);
-        }
+        var rollResults = RollDice();
         var result = new ShadowRunRollResult
         {
             DiceResults = rollResults,
