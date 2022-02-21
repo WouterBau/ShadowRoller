@@ -1,8 +1,8 @@
 namespace ShadowRoller.Domain.Contexts.ShadowRun;
-public class ShadowRunContextParser : IRollContextParser<ShadowRunContext, ShadowRunRollResult>
+public class ShadowRunContextParser : IRollContextParser<ShadowRunRollContext, ShadowRunRollResult>
 {
     private const int AMOUNTSIDES = 6;
-    public ShadowRunContext ParseToRollContext(string[] arguments)
+    public ShadowRunRollContext ParseToRollContext(string[] arguments)
     {
         var dice = new List<Die>();
         int? hitLimit = null;
@@ -12,7 +12,7 @@ public class ShadowRunContextParser : IRollContextParser<ShadowRunContext, Shado
             else
                 AlterDicePool(arg, dice);
 
-        return new ShadowRunContext(dice, hitLimit);
+        return new ShadowRunRollContext(dice, hitLimit);
     }
 
     private void AlterDicePool(string arg, ICollection<Die> dice)

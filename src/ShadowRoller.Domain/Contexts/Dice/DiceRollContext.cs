@@ -1,8 +1,8 @@
 namespace ShadowRoller.Domain.Contexts.Dice;
-public class DiceContext : RollContext<DiceModifierSumRollResult>
+public class DiceRollContext : RollContext<DiceModifierSumRollResult>
 {
     private IEnumerable<int> Modifiers { get; init; }
-    public DiceContext(ICollection<Die> dice, IEnumerable<int> modifiers) : base(dice)
+    public DiceRollContext(ICollection<Die> dice, IEnumerable<int> modifiers) : base(dice)
     {
         Modifiers = modifiers;   
     }

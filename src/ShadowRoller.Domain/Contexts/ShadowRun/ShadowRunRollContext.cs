@@ -1,9 +1,9 @@
 namespace ShadowRoller.Domain.Contexts.ShadowRun;
-public class ShadowRunContext : RollContext<ShadowRunRollResult>
+public class ShadowRunRollContext : RollContext<ShadowRunRollResult>
 {
     private const int MAXAMOUNTSIDES = 6;
     private int? HitLimit { get; init; }
-    public ShadowRunContext(ICollection<Die> dice, int? hitLimit = null) : base(dice)
+    public ShadowRunRollContext(ICollection<Die> dice, int? hitLimit = null) : base(dice)
     {
         if(dice.Any(x => x.AmountSides > MAXAMOUNTSIDES))
             throw new InvalidAmountSidesException();
