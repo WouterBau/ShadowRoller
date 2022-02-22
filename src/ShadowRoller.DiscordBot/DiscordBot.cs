@@ -1,11 +1,14 @@
 using System.Text;
 using DSharpPlus;
 using DSharpPlus.EventArgs;
-using ShadowRoller.Domain;
+using ShadowRoller.Domain.Contexts;
+using ShadowRoller.Domain.Contexts.Dice;
+using ShadowRoller.Domain.Contexts.ShadowRun;
 
 public class DiscordBot
 {
-
+    private readonly IRollContextParser<DiceRollContext, DiceModifierSumRollResult> _diceRollContextParser = new DiceRollContextParser();
+    private readonly IRollContextParser<ShadowRunRollContext, ShadowRunRollResult> _shadowRunRollContext = new ShadowRunContextParser();
     private const string PREFIX = "!sr-";
     private const string DELIMITER = " ";
     private readonly CancellationTokenSource _cancellationTokenSource;
@@ -31,46 +34,17 @@ public class DiscordBot
                 await sender.SendMessageAsync(e.Message.Channel, "Ok, I'm leaving");
                 _cancellationTokenSource.Cancel();
                 break;
-            case "eval":
-                await Evaluate(sender, e, args);
+            case "sr5":
+                var srContext = _shadowRunRollContext.ParseToRollContext(args);
+                var srResult = srContext.Resolve();
+                await Evaluate(sender, e, srResult);
                 break;
             case "roll":
-                await Roll(sender, e, args);
-                break;
-            case "test":
-                await Test(sender, e, args);
+                var diceContext = _diceRollContextParser.ParseToRollContext(args);
+                var diceResult = diceContext.Resolve();
+                await Evaluate(sender, e, diceResult);
                 break;
         }
-    }
-
-    private async Task Roll(DiscordClient sender, MessageCreateEventArgs e, string[] args)
-    {
-        var parsedValues = ParseValues(args);
-        if (!parsedValues.Values.Any())
-        {
-            await sender.SendMessageAsync(e.Message.Channel, "Invalid input");
-            return;
-        }
-        var rollResult = ShadowRunRoller.RollAmountDice(parsedValues.Values.First(), parsedValues.HitLimit);
-        await Evaluate(sender, e, rollResult);
-    }
-
-    private async Task Test(DiscordClient sender, MessageCreateEventArgs e, string[] args)
-    {
-        var parsedValues = ParseValues(args);
-        var rollResult = ShadowRunRoller.RollByAttributes(parsedValues.Values, parsedValues.HitLimit);
-        await Evaluate(sender, e, rollResult);
-    }
-
-    private async Task Evaluate(DiscordClient sender, MessageCreateEventArgs e, string[] args)
-    {
-        var parsedValues = ParseValues(args);
-        var rollResult = new ShadowRunRollResult
-        {
-            DiceResults = parsedValues.Values,
-            HitLimit = parsedValues.HitLimit
-        };
-        await Evaluate(sender, e, rollResult);
     }
 
     private async Task Evaluate(DiscordClient sender, MessageCreateEventArgs e, ShadowRunRollResult rollResult)
@@ -85,39 +59,12 @@ public class DiscordBot
         await sender.SendMessageAsync(e.Message.Channel, sb.ToString());
     }
 
-    private (int[] Values, int? HitLimit) ParseValues(string[] args)
+    private async Task Evaluate(DiscordClient sender, MessageCreateEventArgs e, DiceModifierSumRollResult rollResult)
     {
-        var values = new List<int>();
-        int? hitLimit = null;
-        foreach (var arg in args.Select(x => x.Trim()))
-        {
-            if (arg.StartsWith('[') && arg.EndsWith(']'))
-            {
-                hitLimit = GetHitLimit(arg);
-                if (hitLimit.HasValue)
-                    break;
-            }
-            else
-            {
-                var value = GetValue(arg);
-                if (value.HasValue)
-                    values.Add(value.Value);
-            }
-        }
-        return (values.ToArray(), hitLimit);
-    }
-
-    private int? GetHitLimit(string arg)
-    {
-        arg = arg.Replace("[", "").Replace("]", "");
-        return GetValue(arg);
-    }
-
-    private int? GetValue(string arg)
-    {
-        if (int.TryParse(arg, out var value))
-            return value;
-        return null;
+        var sb = new StringBuilder();
+        sb.AppendLine($"{e.Message.Author.Username} Rolled: {string.Join(" ", rollResult.DiceResults)} Modifiers: {string.Join(" ", rollResult.Modifiers)}");
+        sb.AppendLine($"Result: {rollResult.Result}");
+        await sender.SendMessageAsync(e.Message.Channel, sb.ToString());
     }
 
 }
