@@ -1,4 +1,3 @@
-using System.Text;
 using DSharpPlus;
 using DSharpPlus.EventArgs;
 using ShadowRoller.Domain.Contexts;
@@ -37,34 +36,20 @@ public class DiscordBot
             case "sr5":
                 var srContext = _shadowRunRollContext.ParseToRollContext(args);
                 var srResult = srContext.Resolve();
-                await Evaluate(sender, e, srResult);
+                await PrintResult(sender, e, srResult);
                 break;
             case "roll":
                 var diceContext = _diceRollContextParser.ParseToRollContext(args);
                 var diceResult = diceContext.Resolve();
-                await Evaluate(sender, e, diceResult);
+                await PrintResult(sender, e, diceResult);
                 break;
         }
     }
 
-    private async Task Evaluate(DiscordClient sender, MessageCreateEventArgs e, ShadowRunRollResult rollResult)
+    private async Task PrintResult(DiscordClient sender, MessageCreateEventArgs e, IRollResult rollResult)
     {
-        var sb = new StringBuilder();
-        sb.AppendLine($"{e.Message.Author.Username} Rolled: {string.Join(" ", rollResult.DiceResults)} Limit: {rollResult.HitLimit}");
-        sb.AppendLine($"Net amount hits: {rollResult.NetAmountHits} Amount misses: {rollResult.AmountMisses}");
-        if (rollResult.HasGlitchedCritically)
-            sb.AppendLine("CRITICAL GLITCH!!");
-        else if (rollResult.HasGlitched)
-            sb.AppendLine("REGULAR GLITCH!!");
-        await sender.SendMessageAsync(e.Message.Channel, sb.ToString());
-    }
-
-    private async Task Evaluate(DiscordClient sender, MessageCreateEventArgs e, DiceModifierSumRollResult rollResult)
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine($"{e.Message.Author.Username} Rolled: {string.Join(" ", rollResult.DiceResults)} Modifiers: {string.Join(" ", rollResult.Modifiers)}");
-        sb.AppendLine($"Result: {rollResult.Result}");
-        await sender.SendMessageAsync(e.Message.Channel, sb.ToString());
+        var result = rollResult.ToString(e.Message.Author.Username);
+        await sender.SendMessageAsync(e.Message.Channel, result);
     }
 
 }
