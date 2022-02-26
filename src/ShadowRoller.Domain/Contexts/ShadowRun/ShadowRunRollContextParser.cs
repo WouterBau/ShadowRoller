@@ -15,16 +15,15 @@ public class ShadowRunContextParser : IRollContextParser<ShadowRunRollContext, S
         return new ShadowRunRollContext(dice, hitLimit);
     }
 
-    private void AlterDicePool(string arg, ICollection<Die> dice)
+    private void AlterDicePool(string arg, List<Die> dice)
     {
-        var result = new List<Die>();
         var amountDice = GetValue(arg);
         if (!amountDice.HasValue)
             return;
         if (amountDice.Value >= 0)
-            result.AddRange(Enumerable.Repeat(new Die(AMOUNTSIDES), amountDice.Value));
+            dice.AddRange(Enumerable.Repeat(new Die(AMOUNTSIDES), amountDice.Value));
         else
-            result.RemoveRange(0, Math.Abs(amountDice.Value));
+            dice.RemoveRange(0, Math.Abs(amountDice.Value));
     }
 
     private int? GetHitLimit(string arg)
