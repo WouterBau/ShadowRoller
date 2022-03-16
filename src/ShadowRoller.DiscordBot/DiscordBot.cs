@@ -22,7 +22,7 @@ public class DiscordBot
     {
         if (!e.Message.Content.StartsWith(PREFIX, StringComparison.InvariantCultureIgnoreCase))
             return;
-        
+
         var messageParts = e.Message.Content.Split(DELIMITER).ToArray();
         var command = messageParts.First().Replace(PREFIX, "").ToLower();
         var args = messageParts.Skip(1).ToArray();

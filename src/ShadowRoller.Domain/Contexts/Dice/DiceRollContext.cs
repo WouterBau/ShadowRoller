@@ -4,7 +4,7 @@ public class DiceRollContext : RollContext<DiceModifierSumRollResult>
     private IEnumerable<int> Modifiers { get; init; }
     public DiceRollContext(ICollection<Die> dice, IEnumerable<int> modifiers) : base(dice)
     {
-        Modifiers = modifiers;   
+        Modifiers = modifiers;
     }
     public override DiceModifierSumRollResult Resolve()
     {

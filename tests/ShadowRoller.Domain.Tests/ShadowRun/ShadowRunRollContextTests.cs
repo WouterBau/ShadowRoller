@@ -1,13 +1,13 @@
 namespace ShadowRoller.Domain.ShadowRun.Tests;
 
+using ShadowRoller.Domain.Contexts.ShadowRun;
 using System.Collections.Generic;
 using System.Linq;
-using ShadowRoller.Domain.Contexts.ShadowRun;
 using Xunit;
 
 public class ShadowRunRollContextTests
 {
-    public static IEnumerable<object[]> ShadowRunRollContextTestValues() => new []
+    public static IEnumerable<object[]> ShadowRunRollContextTestValues() => new[]
         {
             new object[]{
                 new ShadowRunRollContext(

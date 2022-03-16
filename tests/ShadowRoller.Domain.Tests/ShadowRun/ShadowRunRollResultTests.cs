@@ -1,7 +1,7 @@
 namespace ShadowRoller.Domain.ShadowRun.Tests;
 
-using System.Collections.Generic;
 using ShadowRoller.Domain.Contexts.ShadowRun;
+using System.Collections.Generic;
 using Xunit;
 
 public class ShadowRunRollResultTests
@@ -59,5 +59,5 @@ public class ShadowRunRollResultTests
         Assert.Equal(expectedMisses, resultItem.AmountMisses);
         Assert.Equal(expectedHasGlitched, resultItem.HasGlitched);
         Assert.Equal(expectedGlitchedCriticall, resultItem.HasGlitchedCritically);
-    }   
+    }
 }

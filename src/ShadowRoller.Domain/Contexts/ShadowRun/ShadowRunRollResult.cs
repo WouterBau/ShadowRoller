@@ -3,7 +3,7 @@ using System.Text;
 namespace ShadowRoller.Domain.Contexts.ShadowRun;
 public class ShadowRunRollResult : IRollResult
 {
-    private IEnumerable<int> _diceResults = new int[]{};
+    private IEnumerable<int> _diceResults = new int[] { };
     public IEnumerable<int> DiceResults
     {
         get => _diceResults;

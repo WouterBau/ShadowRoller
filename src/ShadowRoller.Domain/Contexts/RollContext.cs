@@ -1,7 +1,7 @@
 namespace ShadowRoller.Domain.Contexts;
 public abstract class RollContext<T> where T : IRollResult
 {
-    protected ICollection<Die> Dice{ get; private set; }
+    protected ICollection<Die> Dice { get; private set; }
 
     public RollContext(ICollection<Die> dice)
     {
@@ -13,7 +13,7 @@ public abstract class RollContext<T> where T : IRollResult
     protected IEnumerable<int> RollDice()
     {
         var rollResults = new List<int>();
-        foreach(var die in Dice)
+        foreach (var die in Dice)
         {
             var rollResult = die.Roll();
             rollResults.Add(rollResult);

@@ -24,7 +24,7 @@ var discordBot = new DiscordBot(discordClient, cancellationTokenSource);
 
 await discordClient.ConnectAsync();
 
-while(!cancellationTokenSource.IsCancellationRequested)
+while (!cancellationTokenSource.IsCancellationRequested)
 {
 
 }

@@ -1,4 +1,5 @@
 namespace ShadowRoller.Domain;
-public class InvalidAmountSidesException : ArgumentException {
+public class InvalidAmountSidesException : ArgumentException
+{
 
 }

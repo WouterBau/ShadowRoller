@@ -5,7 +5,7 @@ public class ShadowRunRollContext : RollContext<ShadowRunRollResult>
     private int? HitLimit { get; init; }
     public ShadowRunRollContext(ICollection<Die> dice, int? hitLimit = null) : base(dice)
     {
-        if(dice.Any(x => x.AmountSides > MAXAMOUNTSIDES))
+        if (dice.Any(x => x.AmountSides > MAXAMOUNTSIDES))
             throw new InvalidAmountSidesException();
         HitLimit = hitLimit;
     }
