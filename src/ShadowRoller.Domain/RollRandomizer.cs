@@ -1,7 +1,7 @@
 namespace ShadowRoller.Domain;
 public static class RollRandomizer
 {
-    private static Random _randomizer = new Random();
+    private static readonly Random _randomizer = new();
 
     public static int NextRandom(int maxValue)
     {

@@ -3,7 +3,7 @@ using System.Text;
 namespace ShadowRoller.Domain.Contexts.ShadowRun;
 public class ShadowRunRollResult : IRollResult
 {
-    private IEnumerable<int> _diceResults = new int[] { };
+    private IEnumerable<int> _diceResults = Array.Empty<int>();
     public IEnumerable<int> DiceResults
     {
         get => _diceResults;
@@ -31,9 +31,9 @@ public class ShadowRunRollResult : IRollResult
 
     public string ToString(string player)
     {
-        var sb = new StringBuilder();
-        sb.AppendLine($"{player} Rolled: {string.Join(" ", DiceResults)} Limit: {HitLimit}");
-        sb.AppendLine($"Net amount hits: {NetAmountHits} Amount misses: {AmountMisses}");
+        var sb = new StringBuilder()
+            .AppendLine($"{player} Rolled: {string.Join(" ", DiceResults)} Limit: {HitLimit}")
+            .AppendLine($"Net amount hits: {NetAmountHits} Amount misses: {AmountMisses}");
         if (HasGlitchedCritically)
             sb.AppendLine("CRITICAL GLITCH!!");
         else if (HasGlitched)

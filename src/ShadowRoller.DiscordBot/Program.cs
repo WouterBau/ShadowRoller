@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using DSharpPlus;
 using Microsoft.Extensions.Configuration;
+using ShadowRoller.DiscordBot;
 
 Console.WriteLine("Hello, World! Starting this bot!");
 

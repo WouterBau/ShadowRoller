@@ -15,7 +15,7 @@ public class ShadowRunContextParser : IRollContextParser<ShadowRunRollContext, S
         return new ShadowRunRollContext(dice, hitLimit);
     }
 
-    private void AlterDicePool(string arg, List<Die> dice)
+    private static void AlterDicePool(string arg, List<Die> dice)
     {
         var amountDice = GetValue(arg);
         if (!amountDice.HasValue)
@@ -26,13 +26,13 @@ public class ShadowRunContextParser : IRollContextParser<ShadowRunRollContext, S
             dice.RemoveRange(0, Math.Abs(amountDice.Value));
     }
 
-    private int? GetHitLimit(string arg)
+    private static int? GetHitLimit(string arg)
     {
         arg = arg.Replace("[", "").Replace("]", "");
         return GetValue(arg);
     }
 
-    private int? GetValue(string arg)
+    private static int? GetValue(string arg)
     {
         arg = arg.Trim();
         if (int.TryParse(arg, out var value))

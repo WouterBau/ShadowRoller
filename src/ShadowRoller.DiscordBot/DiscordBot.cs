@@ -4,6 +4,8 @@ using ShadowRoller.Domain.Contexts;
 using ShadowRoller.Domain.Contexts.Dice;
 using ShadowRoller.Domain.Contexts.ShadowRun;
 
+namespace ShadowRoller.DiscordBot;
+
 public class DiscordBot
 {
     private readonly IRollContextParser<DiceRollContext, DiceModifierSumRollResult> _diceRollContextParser = new DiceRollContextParser();
