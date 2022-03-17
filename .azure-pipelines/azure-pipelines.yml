@@ -17,3 +17,7 @@ steps:
     projects: 'tests/**/*.csproj'
     publishTestResults: true
     arguments: '--collect "XPlat Code Coverage"'
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'

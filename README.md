@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/bauchart/ShadowRoller/_apis/build/status/WouterBau.ShadowRoller?branchName=main)](https://dev.azure.com/bauchart/ShadowRoller/_build/latest?definitionId=2&branchName=main)
+
 # ShadowRoller
 A small Discord bot currently set up as an easier way to resolve ShadownRun 5 tests.
 It reads and sends messages in the channel they're invited to.
