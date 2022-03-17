@@ -1,5 +1,5 @@
 trigger:
-- master
+- main
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -22,7 +22,7 @@ steps:
   inputs:
     testResultsFormat: 'xUnit'
     testResultsFiles: '**/TEST-*.trx'
-    #mergeTestResults: true
+    mergeTestResults: true
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'cobertura'
