@@ -16,14 +16,4 @@ steps:
     command: 'test'
     projects: 'tests/**/*.csproj'
     publishTestResults: true
-    arguments: '--collect "XPlat Code Coverage"'
-#- task: PublishTestResults@2
-#  displayName: 'publish test results'
-#  inputs:
-#    testResultsFormat: 'xUnit'
-#    testResultsFiles: '**/*.trx'
-#    mergeTestResults: true
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: 'cobertura'
-    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+    arguments: '--collect "Code Coverage"'
