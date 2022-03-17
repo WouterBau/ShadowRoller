@@ -16,4 +16,4 @@ steps:
     command: 'test'
     projects: 'tests/**/*.csproj'
     publishTestResults: true
-    arguments: '--collect "Code Coverage"'
+    arguments: '--collect "XPlat Code Coverage"'
