@@ -1,7 +1,9 @@
-namespace ShadowRoller.Domain;
-public class ShadowRunRollResult
+using System.Text;
+
+namespace ShadowRoller.Domain.Contexts.ShadowRun;
+public class ShadowRunRollResult : IRollResult
 {
-    private IEnumerable<int> _diceResults = new int[]{};
+    private IEnumerable<int> _diceResults = Array.Empty<int>();
     public IEnumerable<int> DiceResults
     {
         get => _diceResults;
@@ -26,4 +28,16 @@ public class ShadowRunRollResult
     public int AmountMisses => DiceResults.Where(x => x == 1).Count();
     public bool HasGlitched => AmountMisses > (DiceResults.Count() / 2);
     public bool HasGlitchedCritically => HasGlitched && GrossAmountHits == 0;
+
+    public string ToString(string player)
+    {
+        var sb = new StringBuilder()
+            .AppendLine($"{player} Rolled: {string.Join(" ", DiceResults)} Limit: {HitLimit}")
+            .AppendLine($"Net amount hits: {NetAmountHits} Amount misses: {AmountMisses}");
+        if (HasGlitchedCritically)
+            sb.AppendLine("CRITICAL GLITCH!!");
+        else if (HasGlitched)
+            sb.AppendLine("REGULAR GLITCH!!");
+        return sb.ToString();
+    }
 }

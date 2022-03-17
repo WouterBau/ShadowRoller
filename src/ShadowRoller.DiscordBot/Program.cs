@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using DSharpPlus;
 using Microsoft.Extensions.Configuration;
+using ShadowRoller.DiscordBot;
 
 Console.WriteLine("Hello, World! Starting this bot!");
 
@@ -24,7 +25,7 @@ var discordBot = new DiscordBot(discordClient, cancellationTokenSource);
 
 await discordClient.ConnectAsync();
 
-while(!cancellationTokenSource.IsCancellationRequested)
+while (!cancellationTokenSource.IsCancellationRequested)
 {
 
 }
