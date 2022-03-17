@@ -1,0 +1,29 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build'
+  inputs:
+    command: 'build'
+    projects: '**/*.csproj'
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet test'
+  inputs:
+    command: 'test'
+    projects: 'tests/**/*.csproj'
+    publishTestResults: true
+    arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=TestResults/Coverage/'
+- task: PublishTestResults@2
+  displayName: 'publish test results'
+  inputs:
+    testResultsFormat: 'xUnit'
+    testResultsFiles: '**/TEST-*.trx'
+    #mergeTestResults: true
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'cobertura'
+    summaryFileLocation: 'TestResults/Coverage/**.*.xml'
