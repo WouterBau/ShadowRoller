@@ -1,4 +1,6 @@
 [![Build Status](https://dev.azure.com/bauchart/ShadowRoller/_apis/build/status/WouterBau.ShadowRoller?branchName=main)](https://dev.azure.com/bauchart/ShadowRoller/_build/latest?definitionId=2&branchName=main)
+![Azure DevOps tests](https://img.shields.io/azure-devops/tests/bauchart/ShadowRoller/2/main?compact_message)
+![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/bauchart/ShadowRoller/2)
 
 # ShadowRoller
 A small Discord bot currently set up as an easier way to resolve ShadownRun 5 tests.
