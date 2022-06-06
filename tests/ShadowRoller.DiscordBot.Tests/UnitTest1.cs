@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace ShadowRoller.DiscorBot.Tests;
+namespace ShadowRoller.DiscordBot.Tests;
 
 public class UnitTest1
 {
