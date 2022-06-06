@@ -28,3 +28,7 @@ Ex.: `!sr-test 1 4 2 [3]`
 
 - `X Y ...` : List of attribute and skill values to use in a test. It makes a sum of these values to use as the dice pool for the roll.
 - `[Z]` : Limit of hits (Optional)
+
+## Building and running Docker
+Local Build command: `docker build -t shadowroller-discord:latest .`
+Local Run command: `docker run --rm -it -v $env:APPDATA/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro shadowroller-discord:latest`
