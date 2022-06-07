@@ -30,10 +30,16 @@ Ex.: `!sr-sr5 1 4 2 [3]`
 - `[Z]` : Limit of hits (Optional)
 
 ## Building and running Docker
-### Local
+### Testing
+Local Build for testing:
+`docker build --target test -t shadowroller-discord-tests:latest .`
+Local Run command for testing:
+`docker run shadowroller-discord-tests:latest`
+
+### Running
 Don't forget to add secrets to run application:
 `dotnet user-secrets set "discord:token" "X"`
-Local Build command:
+Local Build for running command:
 `docker build -t shadowroller-discord:latest .`
 Local Run command:
 `docker run --rm -it -v $env:APPDATA/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro shadowroller-discord:latest`

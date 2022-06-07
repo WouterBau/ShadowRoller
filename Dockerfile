@@ -19,6 +19,23 @@ COPY . .
 # build the solution
 RUN dotnet build
 
+# Create new build target to run only the tests
+FROM build AS test
+
+# Navigate to unit test directory
+WORKDIR /app/tests/ShadowRoller.Domain.Tests
+
+# Execute command to run the unit tests
+CMD ["dotnet", "test", "--logger:trx"]
+
+# Run unit tests
+#FROM build AS test
+
+# Set directory to unit test project
+#WORKDIR /app/tests/ShadowRoller.Domain.Tests
+
+#RUN dotnet test --logger:trx
+
 # create a new layer from the build later
 FROM build AS publish
 
