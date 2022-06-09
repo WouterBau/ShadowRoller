@@ -2,7 +2,6 @@ namespace ShadowRoller.Domain.ShadowRun.Tests;
 
 using ShadowRoller.Domain.Contexts.ShadowRun;
 using System.Collections.Generic;
-using Xunit;
 
 public class ShadowRunRollResultTests
 {
