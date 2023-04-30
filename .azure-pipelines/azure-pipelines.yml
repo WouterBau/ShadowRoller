@@ -16,13 +16,8 @@ steps:
     command: 'test'
     projects: 'tests/**/*.csproj'
     publishTestResults: true
-    arguments: '--collect "XPlat Code Coverage"'
-- task: 'reportgenerator@5'
-  inputs:
-    reports: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
-    targetdir: '$(Agent.TempDirectory)/coveragereport'
-    reporttypes: 'Cobertura'
+    arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat=\"json,cobertura\" /p:CoverletOutput="../coverage/" /p:MergeWith="../coverage/coverage.json" /p:SkipAutoProps=true -m:1'
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '$(Agent.TempDirectory)/coveragereport/Cobertura.xml'
+    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
