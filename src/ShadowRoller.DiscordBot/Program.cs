@@ -21,7 +21,7 @@ var discordClient = new DiscordClient(
     }
 );
 
-var _ = new DiscordBot(discordClient, cancellationTokenSource);
+var discordBot = new DiscordBot(discordClient, cancellationTokenSource);
 
 await discordClient.ConnectAsync();
 

@@ -48,7 +48,7 @@ public class DiscordBot
         }
     }
 
-    private static async Task PrintResult(DiscordClient sender, MessageCreateEventArgs e, IRollResult rollResult)
+    private async Task PrintResult(DiscordClient sender, MessageCreateEventArgs e, IRollResult rollResult)
     {
         var result = rollResult.ToString(e.Message.Author.Username);
         await sender.SendMessageAsync(e.Message.Channel, result);
