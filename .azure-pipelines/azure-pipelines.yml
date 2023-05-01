@@ -13,6 +13,8 @@ steps:
     scannerMode: 'MSBuild'
     projectKey: 'WouterBau_ShadowRoller'
     projectName: 'ShadowRoller'
+    extraProperties: |
+      sonar.cs.opencover.reportsPaths="$(Build.SourcesDirectory)/**/coverage.opencover.xml"
   
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build'
@@ -26,7 +28,7 @@ steps:
     command: 'test'
     projects: 'tests/**/*.csproj'
     publishTestResults: true
-    arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat="json%2ccobertura" /p:CoverletOutput="../coverage/" /p:MergeWith="../coverage/coverage.json" /p:SkipAutoProps=true -m:1'
+    arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat="json%2ccobertura%2copencover" /p:CoverletOutput="../coverage/" /p:MergeWith="../coverage/coverage.json" /p:SkipAutoProps=true -m:1'
 
 - task: SonarCloudAnalyze@1
   displayName: 'Run SonarCloud analysis'
