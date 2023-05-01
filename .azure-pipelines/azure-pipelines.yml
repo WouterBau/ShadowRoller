@@ -5,11 +5,21 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- task: SonarCloudPrepare@1
+  displayName: 'Prepare analysis configuration'
+  inputs:
+    SonarCloud: 'SonarCloud'
+    organization: 'wouterbau'
+    scannerMode: 'MSBuild'
+    projectKey: 'WouterBau_ShadowRoller'
+    projectName: 'ShadowRoller'
+  
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build'
   inputs:
     command: 'build'
     projects: '**/*.csproj'
+
 - task: DotNetCoreCLI@2
   displayName: 'dotnet test'
   inputs:
@@ -17,6 +27,15 @@ steps:
     projects: 'tests/**/*.csproj'
     publishTestResults: true
     arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat="json%2ccobertura" /p:CoverletOutput="../coverage/" /p:MergeWith="../coverage/coverage.json" /p:SkipAutoProps=true -m:1'
+
+- task: SonarCloudAnalyze@1
+  displayName: 'Run SonarCloud analysis'
+
+- task: SonarCloudPublish@1
+  displayName: 'Publish results on build summary'
+  inputs:
+    pollingTimeoutSec: '300'
+
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'Cobertura'
