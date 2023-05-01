@@ -1,6 +1,13 @@
 [![Build Status](https://dev.azure.com/bauchart/ShadowRoller/_apis/build/status/WouterBau.ShadowRoller?branchName=main)](https://dev.azure.com/bauchart/ShadowRoller/_build/latest?definitionId=2&branchName=main)
 ![Azure DevOps tests](https://img.shields.io/azure-devops/tests/bauchart/ShadowRoller/2/main?compact_message)
 ![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/bauchart/ShadowRoller/2)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=WouterBau_ShadowRoller&metric=coverage)](https://sonarcloud.io/summary/new_code?id=WouterBau_ShadowRoller)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=WouterBau_ShadowRoller&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=WouterBau_ShadowRoller)
+
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=WouterBau_ShadowRoller&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=WouterBau_ShadowRoller)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=WouterBau_ShadowRoller&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=WouterBau_ShadowRoller)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=WouterBau_ShadowRoller&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=WouterBau_ShadowRoller)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=WouterBau_ShadowRoller&metric=bugs)](https://sonarcloud.io/summary/new_code?id=WouterBau_ShadowRoller)
 
 # ShadowRoller
 A small Discord bot currently set up as an easier way to resolve ShadownRun 5 tests.
