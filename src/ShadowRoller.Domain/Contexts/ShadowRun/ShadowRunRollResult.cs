@@ -15,7 +15,7 @@ public class ShadowRunRollResult : IRollResult
         }
     }
     public int? HitLimit { get; init; }
-    public int GrossAmountHits => DiceResults.Where(x => x >= 5).Count();
+    public int GrossAmountHits => DiceResults.Count(x => x >= 5);
     public int NetAmountHits
     {
         get
