@@ -3,7 +3,7 @@ public abstract class RollContext<T> where T : IRollResult
 {
     protected ICollection<Die> Dice { get; init; }
 
-    public RollContext(ICollection<Die> dice)
+    protected RollContext(ICollection<Die> dice)
     {
         Dice = dice;
     }

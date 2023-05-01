@@ -1,3 +1,4 @@
+namespace ShadowRoller.Domain.Contexts;
 public interface IRollResult
 {
     public IEnumerable<int> DiceResults { get; init; }

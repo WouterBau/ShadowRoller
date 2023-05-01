@@ -29,4 +29,10 @@ public class ShadowRunRollContextTests
         var result = context.Resolve();
         Assert.Equal(expectedAmount, result.DiceResults.Count());
     }
+
+    [Fact]
+    public void ShadowRunRollContextFailsOnInvalidDie()
+    {
+        Assert.Throws<InvalidAmountSidesException>(() => new ShadowRunRollContext(new[] { new Die(7) }));
+    }
 }

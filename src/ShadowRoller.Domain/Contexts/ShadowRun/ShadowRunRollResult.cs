@@ -25,7 +25,7 @@ public class ShadowRunRollResult : IRollResult
             return GrossAmountHits;
         }
     }
-    public int AmountMisses => DiceResults.Where(x => x == 1).Count();
+    public int AmountMisses => DiceResults.Count(x => x == 1);
     public bool HasGlitched => AmountMisses > (DiceResults.Count() / 2);
     public bool HasGlitchedCritically => HasGlitched && GrossAmountHits == 0;
 
