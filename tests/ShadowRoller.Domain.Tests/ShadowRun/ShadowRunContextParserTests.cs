@@ -7,6 +7,7 @@ public class ShadowRunContextParserTests
 {
     [Theory]
     [InlineData(new[] { "1", "1" }, 2, null)]
+    [InlineData(new[] { " 1 ", " 1 " }, 2, null)]
     [InlineData(new[] { "2", "1" }, 3, null)]
     [InlineData(new[] { "2", "-1" }, 1, null)]
     [InlineData(new[] { "2", "-1", "[1]" }, 1, 1)]

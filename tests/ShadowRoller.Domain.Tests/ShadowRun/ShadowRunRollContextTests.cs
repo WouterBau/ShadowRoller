@@ -17,7 +17,8 @@ public class ShadowRunRollContextTests
                         new Die(6),
                         new Die(6),
                         new Die(6)
-                }, null),
+                    },
+                    null),
                 4
             }
         };
