@@ -10,6 +10,8 @@ public class ShadowRunContextParserTests
     [InlineData(new[] { "2", "1" }, 3, null)]
     [InlineData(new[] { "2", "-1" }, 1, null)]
     [InlineData(new[] { "2", "-1", "[1]" }, 1, 1)]
+    [InlineData(new[] { "a" }, 0, null)]
+    [InlineData(new[] { "a", "2", "[1]", "-1" }, 1, 1)]
     public void TestContextParser(string[] arguments, int expectedAmountDice, int? expectedHitLimit)
     {
         var parser = new ShadowRunContextParser();

@@ -2,6 +2,7 @@ namespace ShadowRoller.Domain.Contexts.ShadowRun;
 public class ShadowRunContextParser : IRollContextParser<ShadowRunRollContext, ShadowRunRollResult>
 {
     private const int AMOUNTSIDES = 6;
+
     public ShadowRunRollContext ParseToRollContext(string[] arguments)
     {
         var dice = new List<Die>();
