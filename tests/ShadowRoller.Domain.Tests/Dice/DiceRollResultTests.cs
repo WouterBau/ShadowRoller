@@ -19,7 +19,7 @@ public class DiceRollResultTests
                 12,
                 "Player 1",
                 @"Player 1 Rolled: 1 5 6 Modifiers: 
-Result: 13
+Result: 12
 "
             },
             new object[]
