@@ -50,12 +50,13 @@ steps:
     custom: tool
     arguments: install dotnet-stryker --tool-path $(Agent.BuildDirectory)/tools
 
-- task: DotNetCoreCLI@2
-  displayName: 'Execute dotnet-stryker'
+- task: Powershell@2
+  displayName: 'Run dotnet-stryker'
   inputs:
-    command: custom
-    custom: stryker
-    arguments: -s .\ShadowRoller.sln
+    workingDirectory: .
+    targetType: 'inline'
+    pwsh: true
+    script: $(Agent.BuildDirectory)/tools/dotnet-stryker -s .\ShadowRoller.sln
 
 - task: PublishMutationReport@1
   displayName: 'Publish Mutation Test Report'
