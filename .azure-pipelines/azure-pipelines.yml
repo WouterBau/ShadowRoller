@@ -56,7 +56,7 @@ steps:
     workingDirectory: .
     targetType: 'inline'
     pwsh: true
-    script: $(Agent.BuildDirectory)/tools/dotnet-stryker -s .\ShadowRoller.sln
+    script: $(Agent.BuildDirectory)/tools/dotnet-stryker -s $(Build.SourcesDirectory)\ShadowRoller.sln
 
 - task: PublishMutationReport@1
   displayName: 'Publish Mutation Test Report'
