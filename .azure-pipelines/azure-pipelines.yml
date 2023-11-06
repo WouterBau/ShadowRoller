@@ -42,3 +42,22 @@ steps:
   inputs:
     codeCoverageTool: 'Cobertura'
     summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Install dotnet-stryker'
+  inputs:
+    command: custom
+    custom: tool
+    arguments: install dotnet-stryker --tool-path $(Agent.BuildDirectory)/tools
+
+- task: DotNetCoreCLI@2
+  displayName: 'Execute dotnet-stryker'
+  inputs:
+    command: custom
+    custom: stryker
+    arguments: -s .\ShadowRoller.sln
+
+- task: PublishMutationReport@1
+  displayName: 'Publish Mutation Test Report'
+  inputs:
+    reportPattern: '**/mutation-report.html'
