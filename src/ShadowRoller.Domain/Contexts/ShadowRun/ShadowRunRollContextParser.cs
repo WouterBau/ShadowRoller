@@ -21,9 +21,9 @@ public class ShadowRunContextParser : IRollContextParser<ShadowRunRollContext, S
         var amountDice = GetValue(arg);
         if (!amountDice.HasValue || amountDice.Value == 0)
             return;
-        if (amountDice.Value > 0)
+        if (amountDice.Value >= 1)
             dice.AddRange(Enumerable.Repeat(new Die(AMOUNTSIDES), amountDice.Value));
-        else if (amountDice.Value < 0 && dice.Any())
+        if (amountDice.Value <= -1 && dice.Any())
             dice.RemoveRange(0, Math.Abs(amountDice.Value));
     }
 
