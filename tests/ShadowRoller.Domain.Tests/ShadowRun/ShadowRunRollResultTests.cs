@@ -2,6 +2,7 @@ namespace ShadowRoller.Domain.ShadowRun.Tests;
 
 using ShadowRoller.Domain.Contexts.ShadowRun;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 public class ShadowRunRollResultTests
@@ -77,6 +78,41 @@ Net amount hits: 2 Amount misses: 1
 Net amount hits: 1 Amount misses: 1
 "
             },
+            new object[]
+            {
+                new ShadowRunRollResult
+                {
+                    DiceResults = new []{ 1, 5 },
+                    HitLimit = 1
+                },
+                1,
+                1,
+                1,
+                false,
+                false,
+                "Player 1",
+                @"Player 1 Rolled: 1 5 Limit: 1
+Net amount hits: 1 Amount misses: 1
+"
+            },
+            new object[]
+            {
+                new ShadowRunRollResult
+                {
+                    DiceResults = new []{ 1, 1 },
+                    HitLimit = 1
+                },
+                0,
+                0,
+                2,
+                true,
+                true,
+                "Player 1",
+                @"Player 1 Rolled: 1 1 Limit: 1
+Net amount hits: 0 Amount misses: 2
+CRITICAL GLITCH!!
+"
+            },
         };
     }
 
@@ -109,5 +145,6 @@ Net amount hits: 1 Amount misses: 1
             DiceResults = inputDiceResults
         };
         Assert.Equivalent(expectedDiceResults, result.DiceResults);
+        Assert.True(result.DiceResults.All(x => 1 <= x && x <= 6));
     }
 }
