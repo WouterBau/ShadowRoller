@@ -12,10 +12,10 @@ public class ShadowRunRollContextTests
                 new ShadowRunRollContext(
                     new Die[]
                     {
-                        new Die(6),
-                        new Die(6),
-                        new Die(6),
-                        new Die(6)
+                        new(6),
+                        new(6),
+                        new(6),
+                        new(6)
                     },
                     null),
                 4
