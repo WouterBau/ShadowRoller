@@ -58,10 +58,6 @@ steps:
     pwsh: true
     script: $(Agent.BuildDirectory)/tools/dotnet-stryker -s $(Build.SourcesDirectory)/ShadowRoller.sln --reporter "html" --reporter "dashboard" --dashboard-api-key "$(STRYKER-API-KEY)"
 
-## https://github.com/stryker-mutator/stryker-net/blob/master/docs/reporters.md#dashboard-reporter
-## https://github.com/dotnet/sourcelink#using-source-link-in-net-projects
-## Upgrade to .NET 8
-
 - task: PublishMutationReport@1
   displayName: 'Publish Mutation Test Report'
   inputs:
