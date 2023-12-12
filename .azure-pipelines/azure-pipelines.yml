@@ -21,6 +21,7 @@ steps:
   inputs:
     command: 'build'
     projects: '**/*.csproj'
+    arguments: '--configuration debug'
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet test'
