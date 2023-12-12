@@ -8,15 +8,15 @@ namespace ShadowRoller.Domain.Tests.Dice;
 public class DiceRollContextTests
 {
     public static IEnumerable<object[]> ShadowRunRollContextTestValues() => new[]
-        {
+    {
         new object[]{
             new DiceRollContext(
                 new Die[]
                 {
-                    new Die(6),
-                    new Die(6),
-                    new Die(6),
-                    new Die(6)
+                    new(6),
+                    new(6),
+                    new(6),
+                    new(6)
                 },
                 new[]
                 {

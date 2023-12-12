@@ -1,10 +1,9 @@
-namespace ShadowRoller.Domain.ShadowRun.Tests;
-
 using ShadowRoller.Domain.Contexts.ShadowRun;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
+namespace ShadowRoller.Domain.ShadowRun.Tests;
 public class ShadowRunRollResultTests
 {
     public static IEnumerable<object[]> ResultTestsValues()

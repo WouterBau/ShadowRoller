@@ -1,8 +1,8 @@
-namespace ShadowRoller.Domain.ShadowRun.Tests;
 using ShadowRoller.Domain.Contexts.ShadowRun;
 using System.Linq;
 using Xunit;
 
+namespace ShadowRoller.Domain.ShadowRun.Tests;
 public class ShadowRunContextParserTests
 {
     [Theory]
