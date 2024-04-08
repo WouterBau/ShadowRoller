@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ShadowRoller.DiscordBot": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
