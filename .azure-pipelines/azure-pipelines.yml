@@ -57,7 +57,7 @@ steps:
     workingDirectory: .
     targetType: 'inline'
     pwsh: true
-    script: $(Agent.BuildDirectory)/tools/dotnet-stryker -s $(Build.SourcesDirectory)/ShadowRoller.sln --reporter "html" --reporter "dashboard" --dashboard-api-key "$(STRYKER-API-KEY)"
+    script: $(Agent.BuildDirectory)/tools/dotnet-stryker -s $(Build.SourcesDirectory)/ShadowRoller.sln --reporter "dashboard" --dashboard-api-key "$(STRYKER-API-KEY)"
 
 - task: PublishMutationReport@1
   displayName: 'Publish Mutation Test Report'
