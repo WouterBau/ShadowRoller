@@ -11,7 +11,7 @@ public class ShadowRunRollResultTests
             Add(
                 new ShadowRunRollResult
                 {
-                    DiceResults = new []{ 1 }
+                    DiceResults = [1]
                 },
                 0,
                 0,
@@ -26,7 +26,7 @@ CRITICAL GLITCH!!
             Add(
                 new ShadowRunRollResult
                 {
-                    DiceResults = new []{ 1, 1, 5 }
+                    DiceResults = [1, 1, 5]
                 },
                 1,
                 1,
@@ -41,7 +41,7 @@ REGULAR GLITCH!!
             Add(
                 new ShadowRunRollResult
                 {
-                    DiceResults = new []{ 1, 5, 6 }
+                    DiceResults = [1, 5, 6]
                 },
                 2,
                 2,
@@ -55,7 +55,7 @@ Net amount hits: 2 Amount misses: 1
             Add(
                 new ShadowRunRollResult
                 {
-                    DiceResults = new []{ 1, 5, 6, 5 },
+                    DiceResults = [1, 5, 6, 5],
                     HitLimit = 1
                 },
                 3,
@@ -70,7 +70,7 @@ Net amount hits: 1 Amount misses: 1
             Add(
                 new ShadowRunRollResult
                 {
-                    DiceResults = new []{ 1, 5 },
+                    DiceResults = [1, 5],
                     HitLimit = 1
                 },
                 1,
@@ -85,7 +85,7 @@ Net amount hits: 1 Amount misses: 1
             Add(
                 new ShadowRunRollResult
                 {
-                    DiceResults = new []{ 1, 1 },
+                    DiceResults = [1, 1],
                     HitLimit = 1
                 },
                 0,
