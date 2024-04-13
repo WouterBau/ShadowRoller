@@ -8,6 +8,7 @@
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=WouterBau_ShadowRoller&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=WouterBau_ShadowRoller)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=WouterBau_ShadowRoller&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=WouterBau_ShadowRoller)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=WouterBau_ShadowRoller&metric=bugs)](https://sonarcloud.io/summary/new_code?id=WouterBau_ShadowRoller)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2FWouterBau%2FShadowRoller%2Fmain)](https://dashboard.stryker-mutator.io/reports/github.com/WouterBau/ShadowRoller/main)
 
 # ShadowRoller
 A small Discord bot currently set up as an easier way to resolve ShadownRun 5 tests.

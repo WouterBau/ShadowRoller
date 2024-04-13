@@ -19,11 +19,11 @@ public class ShadowRunContextParser : IRollContextParser<ShadowRunRollContext, S
     private static void AlterDicePool(string arg, List<Die> dice)
     {
         var amountDice = GetValue(arg);
-        if (!amountDice.HasValue)
+        if (!amountDice.HasValue || amountDice.Value == 0)
             return;
-        if (amountDice.Value >= 0)
+        if (amountDice.Value >= 1)
             dice.AddRange(Enumerable.Repeat(new Die(AMOUNTSIDES), amountDice.Value));
-        else
+        if (amountDice.Value <= -1 && dice.Count != 0)
             dice.RemoveRange(0, Math.Abs(amountDice.Value));
     }
 

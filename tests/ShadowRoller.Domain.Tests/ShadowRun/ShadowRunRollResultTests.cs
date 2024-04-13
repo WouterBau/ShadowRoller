@@ -1,20 +1,17 @@
-namespace ShadowRoller.Domain.ShadowRun.Tests;
-
 using ShadowRoller.Domain.Contexts.ShadowRun;
-using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
+namespace ShadowRoller.Domain.ShadowRun.Tests;
 public class ShadowRunRollResultTests
 {
-    public static IEnumerable<object[]> ResultTestsValues()
-    {
-        return new List<object[]>
+    private class ShadowRunRollResultTestData : TheoryData<ShadowRunRollResult, int, int, int, bool, bool, string, string> {
+        public ShadowRunRollResultTestData()
         {
-            new object[]
-            {
+            Add(
                 new ShadowRunRollResult
                 {
-                    DiceResults = new []{ 1 }
+                    DiceResults = [1]
                 },
                 0,
                 0,
@@ -25,13 +22,11 @@ public class ShadowRunRollResultTests
                 @"Player 1 Rolled: 1 Limit: 
 Net amount hits: 0 Amount misses: 1
 CRITICAL GLITCH!!
-"
-            },
-            new object[]
-            {
+");
+            Add(
                 new ShadowRunRollResult
                 {
-                    DiceResults = new []{ 1, 1, 5 }
+                    DiceResults = [1, 1, 5]
                 },
                 1,
                 1,
@@ -42,13 +37,11 @@ CRITICAL GLITCH!!
                 @"Player 1 Rolled: 1 1 5 Limit: 
 Net amount hits: 1 Amount misses: 2
 REGULAR GLITCH!!
-"
-            },
-            new object[]
-            {
+");
+            Add(
                 new ShadowRunRollResult
                 {
-                    DiceResults = new []{ 1, 5, 6 }
+                    DiceResults = [1, 5, 6]
                 },
                 2,
                 2,
@@ -58,13 +51,11 @@ REGULAR GLITCH!!
                 "Player 1",
                 @"Player 1 Rolled: 1 5 6 Limit: 
 Net amount hits: 2 Amount misses: 1
-"
-            },
-            new object[]
-            {
+");
+            Add(
                 new ShadowRunRollResult
                 {
-                    DiceResults = new []{ 1, 5, 6, 5 },
+                    DiceResults = [1, 5, 6, 5],
                     HitLimit = 1
                 },
                 3,
@@ -75,13 +66,43 @@ Net amount hits: 2 Amount misses: 1
                 "Player 1",
                 @"Player 1 Rolled: 1 5 6 5 Limit: 1
 Net amount hits: 1 Amount misses: 1
-"
-            },
-        };
+");
+            Add(
+                new ShadowRunRollResult
+                {
+                    DiceResults = [1, 5],
+                    HitLimit = 1
+                },
+                1,
+                1,
+                1,
+                false,
+                false,
+                "Player 1",
+                @"Player 1 Rolled: 1 5 Limit: 1
+Net amount hits: 1 Amount misses: 1
+");
+            Add(
+                new ShadowRunRollResult
+                {
+                    DiceResults = [1, 1],
+                    HitLimit = 1
+                },
+                0,
+                0,
+                2,
+                true,
+                true,
+                "Player 1",
+                @"Player 1 Rolled: 1 1 Limit: 1
+Net amount hits: 0 Amount misses: 2
+CRITICAL GLITCH!!
+");
+        }
     }
 
     [Theory]
-    [MemberData(nameof(ResultTestsValues))]
+    [ClassData(typeof(ShadowRunRollResultTestData))]
     public void ResultTests(ShadowRunRollResult resultItem,
         int expectedGrossHits, int expectedNetHits, int expectedMisses,
         bool expectedHasGlitched, bool expectedGlitchedCriticall,
@@ -95,11 +116,21 @@ Net amount hits: 1 Amount misses: 1
         Assert.Equal(expectedOutput, resultItem.ToString(player));
     }
 
+    private class ShadowRunRollResult_Filters_Invalid_Values_TestData : TheoryData<int[]?, int[]>
+    {
+        public ShadowRunRollResult_Filters_Invalid_Values_TestData()
+        {
+            Add([0], []);
+            Add([7], []);
+            Add([0, 1], [1]);
+            Add([6, 7], [6]);
+            Add([0, 1, 2, 3, 4, 5, 6, 7], [1, 2, 3, 4, 5, 6]);
+            Add(null, []);
+        }
+    }
+
     [Theory]
-    [InlineData(new[] { 0, 1 }, new[] { 1 })]
-    [InlineData(new[] { 6, 7 }, new[] { 6 })]
-    [InlineData(new[] { 0, 1, 2, 3, 4, 5, 6, 7 }, new[] { 1, 2, 3, 4, 5, 6 })]
-    [InlineData(null, new int[] { })]
+    [ClassData(typeof(ShadowRunRollResult_Filters_Invalid_Values_TestData))]
     public void ShadowRunRollResult_Filters_Invalid_Values(int[] inputDiceResults, int[] expectedDiceResults)
     {
         var result = new ShadowRunRollResult()
@@ -107,5 +138,6 @@ Net amount hits: 1 Amount misses: 1
             DiceResults = inputDiceResults
         };
         Assert.Equivalent(expectedDiceResults, result.DiceResults);
+        Assert.True(result.DiceResults.All(x => 1 <= x && x <= 6));
     }
 }

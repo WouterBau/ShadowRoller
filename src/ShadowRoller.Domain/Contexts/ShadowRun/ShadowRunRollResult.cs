@@ -20,8 +20,8 @@ public class ShadowRunRollResult : IRollResult
     {
         get
         {
-            if (HitLimit.HasValue && HitLimit.Value < GrossAmountHits)
-                return HitLimit.Value;
+            if (HitLimit.HasValue)
+                return Math.Min(HitLimit.Value, GrossAmountHits);
             return GrossAmountHits;
         }
     }

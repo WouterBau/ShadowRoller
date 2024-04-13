@@ -1,7 +1,6 @@
-namespace ShadowRoller.Domain.Tests;
-using ShadowRoller.Domain;
 using Xunit;
 
+namespace ShadowRoller.Domain.Tests;
 public class DieTests
 {
     [Fact]

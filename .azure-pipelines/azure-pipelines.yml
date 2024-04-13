@@ -21,6 +21,7 @@ steps:
   inputs:
     command: 'build'
     projects: '**/*.csproj'
+    arguments: '--configuration debug'
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet test'
@@ -42,3 +43,23 @@ steps:
   inputs:
     codeCoverageTool: 'Cobertura'
     summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Install dotnet-stryker'
+  inputs:
+    command: custom
+    custom: tool
+    arguments: install dotnet-stryker --tool-path $(Agent.BuildDirectory)/tools
+
+- task: Powershell@2
+  displayName: 'Run dotnet-stryker'
+  inputs:
+    workingDirectory: .
+    targetType: 'inline'
+    pwsh: true
+    script: $(Agent.BuildDirectory)/tools/dotnet-stryker -s $(Build.SourcesDirectory)/ShadowRoller.sln --dashboard-api-key "$(STRYKER-API-KEY)" -v "main"
+
+- task: PublishMutationReport@1
+  displayName: 'Publish Mutation Test Report'
+  inputs:
+    reportPattern: '**/mutation-report.html'
