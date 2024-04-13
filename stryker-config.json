@@ -1,0 +1,8 @@
+{
+  "stryker-config": {
+    "project-info": {
+      "name": "github.com/WouterBau/ShadowRoller"
+    },
+    "reporters": ["html", "progress", "dashboard"]
+  }
+}
