@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 namespace ShadowRoller.Domain.Contexts.Dice;
 public class DiceRollContextParser : IRollContextParser<DiceRollContext, DiceModifierSumRollResult>
 {
-    private readonly Regex _regex = new("^\\d\\d*d\\d\\d*$", RegexOptions.None, TimeSpan.FromMilliseconds(100));
+    private readonly Regex _regex = new(@"^\d+d\d+$", RegexOptions.None, TimeSpan.FromMilliseconds(100));
     public DiceRollContext ParseToRollContext(string[] arguments)
     {
         var dice = new List<Die>();
