@@ -23,7 +23,7 @@ public class ShadowRunContextParser : IRollContextParser<ShadowRunRollContext, S
             return;
         if (amountDice.Value >= 1)
             dice.AddRange(Enumerable.Repeat(new Die(AMOUNTSIDES), amountDice.Value));
-        if (amountDice.Value <= -1 && dice.Any())
+        if (amountDice.Value <= -1 && dice.Count != 0)
             dice.RemoveRange(0, Math.Abs(amountDice.Value));
     }
 

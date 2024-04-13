@@ -1,57 +1,53 @@
 using ShadowRoller.Domain.Contexts.Dice;
-using System.Collections.Generic;
 using Xunit;
 
 namespace ShadowRoller.Domain.Tests.Dice;
 
 public class DiceRollResultTests
 {
-    public static IEnumerable<object[]> ResultTestsValues()
-    {
-        return new List<object[]>
+    private class DiceRollResultTestData : TheoryData<DiceModifierSumRollResult, int, string, string> {
+        public DiceRollResultTestData()
         {
-            new object[]
-            {
+            Add(
                 new DiceModifierSumRollResult
                 {
-                    DiceResults = new []{ 1, 5, 6 }
+                    DiceResults = [1, 5, 6]
                 },
                 12,
                 "Player 1",
                 @"Player 1 Rolled: 1 5 6 Modifiers: 
 Result: 12
 "
-            },
-            new object[]
-            {
+            );
+            Add(
                 new DiceModifierSumRollResult
                 {
-                    DiceResults = new []{ 1, 5, 6, 5 },
-                    Modifiers = new [] { 1, -2 }
+                    DiceResults = [1, 5, 6, 5],
+                    Modifiers = [1, -2]
                 },
                 16,
                 "Player 1",
                 @"Player 1 Rolled: 1 5 6 5 Modifiers: 1 -2
 Result: 16
 "
-            },
-            new object[]
-            {
+            );
+            Add(
                 new DiceModifierSumRollResult
                 {
-                    Modifiers = new [] { 1, -2 }
+                    Modifiers = [1, -2]
                 },
                 -1,
                 "Player 1",
                 @"Player 1 Rolled:  Modifiers: 1 -2
 Result: -1
 "
-            },
-        };
+            );
+        }
     }
 
+
     [Theory]
-    [MemberData(nameof(ResultTestsValues))]
+    [ClassData(typeof(DiceRollResultTestData))]
     public void ResultTests(DiceModifierSumRollResult resultItem,
         int expectedResult, string player, string expectedOutput)
     {
