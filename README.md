@@ -38,5 +38,9 @@ Ex.: `!sr-test 1 4 2 [3]`
 - `[Z]` : Limit of hits (Optional)
 
 ## Build & Run
-- `docker build --pull --rm -t shadowrollerdiscordbot:latest -f "src\ShadowRoller.DiscordBot\Dockerfile" .`
-- `docker run --rm --env-file ./src/ShadowRoller.DiscordBot/.env --name shadowrollerdiscordbot shadowrollerdiscordbot:latest`
+Run the following commands in the root of the repository to build and run the bot.
+Store the Discord token in a local-only `.env` file in the `src/ShadowRoller.DiscordBot` folder.
+
+`docker build --pull --rm -t shadowrollerdiscordbot:latest -f "src\ShadowRoller.DiscordBot\Dockerfile" .`
+
+`docker run --rm --env-file ./src/ShadowRoller.DiscordBot/.env --name shadowrollerdiscordbot shadowrollerdiscordbot:latest`

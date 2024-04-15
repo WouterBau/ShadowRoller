@@ -23,7 +23,7 @@ var discordClient = new DiscordClient(
     new DiscordConfiguration
     {
         AutoReconnect = true,
-        MinimumLogLevel = Microsoft.Extensions.Logging.LogLevel.Debug,
+        MinimumLogLevel = Microsoft.Extensions.Logging.LogLevel.Information,
         Token = token,
         TokenType = TokenType.Bot,
         Intents = DiscordIntents.GuildMessages | DiscordIntents.MessageContents
