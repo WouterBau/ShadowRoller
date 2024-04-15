@@ -10,6 +10,13 @@ var config = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
 
+var token = config["token"];
+if (string.IsNullOrWhiteSpace(token))
+{
+    Console.WriteLine("Token is missing. Please provide a token.");
+    return;
+}
+
 var cancellationTokenSource = new CancellationTokenSource();
 
 var discordClient = new DiscordClient(
@@ -17,7 +24,7 @@ var discordClient = new DiscordClient(
     {
         AutoReconnect = true,
         MinimumLogLevel = Microsoft.Extensions.Logging.LogLevel.Debug,
-        Token = config["discord:token"],
+        Token = token,
         TokenType = TokenType.Bot
     }
 );

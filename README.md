@@ -36,3 +36,7 @@ Ex.: `!sr-test 1 4 2 [3]`
 
 - `X Y ...` : List of attribute and skill values to use in a test. It makes a sum of these values to use as the dice pool for the roll.
 - `[Z]` : Limit of hits (Optional)
+
+## Build & Run
+- `docker build --pull --rm -t shadowrollerdiscordbot:latest -f "src\ShadowRoller.DiscordBot\Dockerfile" .`
+- `docker run --rm --env-file ./src/ShadowRoller.DiscordBot/.env --name shadowrollerdiscordbot shadowrollerdiscordbot:latest`
