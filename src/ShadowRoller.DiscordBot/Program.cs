@@ -25,7 +25,8 @@ var discordClient = new DiscordClient(
         AutoReconnect = true,
         MinimumLogLevel = Microsoft.Extensions.Logging.LogLevel.Debug,
         Token = token,
-        TokenType = TokenType.Bot
+        TokenType = TokenType.Bot,
+        Intents = DiscordIntents.GuildMessages | DiscordIntents.MessageContents
     }
 );
 
