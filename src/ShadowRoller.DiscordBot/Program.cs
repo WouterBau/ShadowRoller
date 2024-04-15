@@ -7,6 +7,7 @@ Console.WriteLine("Hello, World! Starting this bot!");
 
 var config = new ConfigurationBuilder()
     .AddUserSecrets(typeof(Program).Assembly, true)
+    .AddEnvironmentVariables()
     .Build();
 
 var cancellationTokenSource = new CancellationTokenSource();
@@ -21,7 +22,7 @@ var discordClient = new DiscordClient(
     }
 );
 
-var discordBot = new DiscordBot(discordClient, cancellationTokenSource);
+var _ = new DiscordBot(discordClient, cancellationTokenSource);
 
 await discordClient.ConnectAsync();
 
