@@ -7,7 +7,15 @@ Console.WriteLine("Hello, World! Starting this bot!");
 
 var config = new ConfigurationBuilder()
     .AddUserSecrets(typeof(Program).Assembly, true)
+    .AddEnvironmentVariables()
     .Build();
+
+var token = config["token"];
+if (string.IsNullOrWhiteSpace(token))
+{
+    Console.WriteLine("Token is missing. Please provide a token.");
+    return;
+}
 
 var cancellationTokenSource = new CancellationTokenSource();
 
@@ -15,13 +23,14 @@ var discordClient = new DiscordClient(
     new DiscordConfiguration
     {
         AutoReconnect = true,
-        MinimumLogLevel = Microsoft.Extensions.Logging.LogLevel.Debug,
-        Token = config["discord:token"],
-        TokenType = TokenType.Bot
+        MinimumLogLevel = Microsoft.Extensions.Logging.LogLevel.Information,
+        Token = token,
+        TokenType = TokenType.Bot,
+        Intents = DiscordIntents.GuildMessages | DiscordIntents.MessageContents
     }
 );
 
-var discordBot = new DiscordBot(discordClient, cancellationTokenSource);
+var _ = new DiscordBot(discordClient, cancellationTokenSource);
 
 await discordClient.ConnectAsync();
 
