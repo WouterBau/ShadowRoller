@@ -1,5 +1,6 @@
 using ShadowRoller.Domain.Contexts.ShadowRun;
 using System.Linq;
+using System.Text;
 using Xunit;
 
 namespace ShadowRoller.Domain.ShadowRun.Tests;
@@ -19,10 +20,11 @@ public class ShadowRunRollResultTests
                 true,
                 true,
                 "Player 1",
-                @"Player 1 Rolled: 1 Limit: 
-Net amount hits: 0 Amount misses: 1
-CRITICAL GLITCH!!
-");
+                new StringBuilder()
+                    .AppendLine("Player 1 Rolled: 1 Limit: ")
+                    .AppendLine("Net amount hits: 0 Amount misses: 1")
+                    .AppendLine("CRITICAL GLITCH!!")
+                    .ToString());
             Add(
                 new ShadowRunRollResult
                 {
@@ -34,10 +36,11 @@ CRITICAL GLITCH!!
                 true,
                 false,
                 "Player 1",
-                @"Player 1 Rolled: 1 1 5 Limit: 
-Net amount hits: 1 Amount misses: 2
-REGULAR GLITCH!!
-");
+                new StringBuilder()
+                    .AppendLine("Player 1 Rolled: 1 1 5 Limit: ")
+                    .AppendLine("Net amount hits: 1 Amount misses: 2")
+                    .AppendLine("REGULAR GLITCH!!")
+                    .ToString());
             Add(
                 new ShadowRunRollResult
                 {
@@ -49,9 +52,10 @@ REGULAR GLITCH!!
                 false,
                 false,
                 "Player 1",
-                @"Player 1 Rolled: 1 5 6 Limit: 
-Net amount hits: 2 Amount misses: 1
-");
+                new StringBuilder()
+                    .AppendLine("Player 1 Rolled: 1 5 6 Limit: ")
+                    .AppendLine("Net amount hits: 2 Amount misses: 1")
+                    .ToString());
             Add(
                 new ShadowRunRollResult
                 {
@@ -64,9 +68,10 @@ Net amount hits: 2 Amount misses: 1
                 false,
                 false,
                 "Player 1",
-                @"Player 1 Rolled: 1 5 6 5 Limit: 1
-Net amount hits: 1 Amount misses: 1
-");
+                new StringBuilder()
+                    .AppendLine("Player 1 Rolled: 1 5 6 5 Limit: 1")
+                    .AppendLine("Net amount hits: 1 Amount misses: 1")
+                    .ToString());
             Add(
                 new ShadowRunRollResult
                 {
@@ -79,9 +84,10 @@ Net amount hits: 1 Amount misses: 1
                 false,
                 false,
                 "Player 1",
-                @"Player 1 Rolled: 1 5 Limit: 1
-Net amount hits: 1 Amount misses: 1
-");
+                new StringBuilder()
+                    .AppendLine("Player 1 Rolled: 1 5 Limit: 1")
+                    .AppendLine("Net amount hits: 1 Amount misses: 1")
+                    .ToString());
             Add(
                 new ShadowRunRollResult
                 {
@@ -94,10 +100,11 @@ Net amount hits: 1 Amount misses: 1
                 true,
                 true,
                 "Player 1",
-                @"Player 1 Rolled: 1 1 Limit: 1
-Net amount hits: 0 Amount misses: 2
-CRITICAL GLITCH!!
-");
+                new StringBuilder()
+                    .AppendLine("Player 1 Rolled: 1 1 Limit: 1")
+                    .AppendLine("Net amount hits: 0 Amount misses: 2")
+                    .AppendLine("CRITICAL GLITCH!!")
+                    .ToString());
         }
     }
 

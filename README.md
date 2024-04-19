@@ -44,3 +44,10 @@ Store the Discord token in a local-only `.env` file in the `src/ShadowRoller.Dis
 `docker build --pull --rm -t shadowrollerdiscordbot:latest -f "src\ShadowRoller.DiscordBot\Dockerfile" .`
 
 `docker run --rm --env-file ./src/ShadowRoller.DiscordBot/.env --name shadowrollerdiscordbot shadowrollerdiscordbot:latest`
+
+## Dockerized QA
+Run the following commands in the root of the repository to build and run the QA container.
+
+`docker build --pull --rm -t shadowroller:qa .`
+
+`docker run --rm -v ${pwd}\TestResults-Docker:/source/tests/TestResults shadowroller:qa`
