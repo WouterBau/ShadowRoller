@@ -48,6 +48,11 @@ Store the Discord token in a local-only `.env` file in the `src/ShadowRoller.Dis
 ## Dockerized QA
 Run the following commands in the root of the repository to build and run the QA container.
 
-`docker build --pull --rm -t shadowroller:qa .`
+`docker build --pull --rm --target test -t shadowroller:qa-tests .
+docker run --rm -v ${pwd}\TestResults-Docker:/source/tests/TestResults shadowroller:qa-tests`
 
-`docker run --rm -v ${pwd}\TestResults-Docker:/source/tests/TestResults shadowroller:qa`
+`docker build --pull --rm --target mutation -t shadowroller:qa-mutation .
+docker run --rm --env-file .env -v ${pwd}\MutationResults-Docker:/source/MutationResults shadowroller:qa-mutation`
+
+### Documentation
+https://github.com/dotnet/dotnet-docker/blob/main/samples/complexapp/README.md
