@@ -12,17 +12,46 @@ RUN dotnet restore ShadowRoller.sln
 # Copy the rest of the application code
 COPY . .
 
-FROM copyrestore AS build
-# Build the application
-RUN dotnet build --no-restore ShadowRoller.sln
-
-# Run the tests
-FROM build AS test
-ENTRYPOINT ["dotnet", "test", "ShadowRoller.sln",  "--no-build", "/p:CollectCoverage=true", "/p:CoverletOutputFormat=json%2ccobertura%2copencover", "/p:CoverletOutput=../TestResults/", "/p:MergeWith=../TestResults/coverage.json", "/p:SkipAutoProps=true", "/m:1"]
-
 FROM copyrestore as mutation
 # Install dotnet-stryker
 RUN dotnet tool install --global dotnet-stryker
 # Add dotnet tools to PATH
 ENV PATH="$PATH:/root/.dotnet/tools"
 ENTRYPOINT dotnet stryker -s ShadowRoller.sln --output MutationResults --dashboard-api-key $STRYKER_API_KEY -v $BRANCH_NAME
+
+FROM copyrestore as qabuild
+ARG SONAR_HOST_URL
+ARG SONAR_TOKEN
+ARG SONAR_ORGANIZATION
+ARG SONAR_PROJECT_KEY
+ARG SONAR_PROJECT_NAME
+ARG SONAR_BRANCH
+
+# Install OpenJDK 17
+RUN apt-get update && apt-get install -y openjdk-17-jdk
+# Install sonarqube scanner
+RUN dotnet tool install --global dotnet-sonarscanner
+# Add dotnet tools to PATH
+ENV PATH="$PATH:/root/.dotnet/tools"
+# Begin SonarCloud analysis
+RUN dotnet sonarscanner begin \
+ /o:"$SONAR_ORGANIZATION" \
+ /k:"$SONAR_PROJECT_KEY" \
+ /n:"$SONAR_PROJECT_NAME" \
+ /d:sonar.token="$SONAR_TOKEN" \
+ /d:sonar.host.url="$SONAR_HOST_URL" \
+ /d:sonar.branch.name="$SONAR_BRANCH" \
+ /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
+# Rebuild the application
+RUN dotnet build --no-restore ShadowRoller.sln
+# Run the tests
+RUN dotnet test ShadowRoller.sln --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=json%2ccobertura%2copencover /p:CoverletOutput=../TestResults/ /p:MergeWith=../TestResults/coverage.json /p:SkipAutoProps=true /m:1
+# End SonarCloud analysis
+RUN dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"
+
+FROM qabuild as qatest
+ENTRYPOINT [ "cp", "-r", "./tests/TestResults", "./volume/TestResults" ]
+
+FROM copyrestore AS build
+# Build the application
+RUN dotnet build --no-restore ShadowRoller.sln
