@@ -45,12 +45,12 @@ RUN dotnet sonarscanner begin \
 # Rebuild the application
 RUN dotnet build --no-restore ShadowRoller.sln
 # Run the tests
-RUN dotnet test ShadowRoller.sln --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=json%2ccobertura%2copencover /p:CoverletOutput=../TestResults/ /p:MergeWith=../TestResults/coverage.json /p:SkipAutoProps=true /m:1
+RUN dotnet test ShadowRoller.sln --no-build --logger trx --results-directory ./TestResults/ /p:CollectCoverage=true /p:CoverletOutputFormat=json%2ccobertura%2copencover /p:CoverletOutput=../../TestResults/ /p:MergeWith=../../TestResults/coverage.json /p:SkipAutoProps=true /m:1
 # End SonarCloud analysis
 RUN dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"
 
 FROM qabuild as qatest
-ENTRYPOINT [ "cp", "-r", "./tests/TestResults", "./volume/TestResults" ]
+ENTRYPOINT [ "cp", "-r", "./TestResults", "./volume/TestResults" ]
 
 FROM copyrestore AS build
 # Build the application
