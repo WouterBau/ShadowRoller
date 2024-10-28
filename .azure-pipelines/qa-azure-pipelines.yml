@@ -1,0 +1,41 @@
+trigger: none
+
+variables:
+- group: stryker-variable-group
+- group: sonarcloud-variable-group
+- name: SONAR_PROJECT_KEY
+  value: WouterBau_ShadowRoller
+- name: SONAR_PROJECT_NAME
+  value: ShadowRoller
+  
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+- job: sast
+  steps:
+  - script: |
+      docker build --pull --rm  --build-arg SONAR_HOST_URL=$(SONAR_HOST_URL) --build-arg SONAR_TOKEN=$(SONAR_TOKEN) --build-arg SONAR_ORGANIZATION=$(SONAR_ORGANIZATION) --build-arg SONAR_PROJECT_KEY=$(SONAR_PROJECT_KEY) --build-arg SONAR_PROJECT_NAME=$(SONAR_PROJECT_NAME) --build-arg SONAR_BRANCH=$(Build.SourceBranchName) --target qatest -t shadowroller:qa-tests .
+      docker run --rm -v $(System.DefaultWorkingDirectory)/TestResults-Docker:/source/volume/TestResults shadowroller:qa-tests
+
+  - task: PublishTestResults@2
+    inputs:
+      testRunner: VSTest
+      testResultsFiles: '$(System.DefaultWorkingDirectory)/**/*.trx'
+      failTaskOnFailedTests: true
+
+  - task: PublishCodeCoverageResults@2
+    inputs:
+      codeCoverageTool: 'Cobertura'
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.cobertura.xml'
+
+- job: mutation
+  steps:
+  - script: |
+      docker build --pull --rm --target mutation -t shadowroller:qa-mutation .
+      docker run --rm -e STRYKER_API_KEY=$(STRYKER_API_KEY) -e BRANCH_NAME=$(Build.SourceBranchName) -v $(System.DefaultWorkingDirectory)/MutationResults:/source/MutationResults shadowroller:qa-mutation
+
+  - task: PublishMutationReport@1
+    displayName: 'Publish Mutation Test Report'
+    inputs:
+      reportPattern: '$(System.DefaultWorkingDirectory)/**/mutation-report.html'

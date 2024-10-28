@@ -1,3 +1,4 @@
+using System.Text;
 using ShadowRoller.Domain.Contexts.Dice;
 using Xunit;
 
@@ -15,10 +16,10 @@ public class DiceRollResultTests
                 },
                 12,
                 "Player 1",
-                @"Player 1 Rolled: 1 5 6 Modifiers: 
-Result: 12
-"
-            );
+                new StringBuilder()
+                    .AppendLine("Player 1 Rolled: 1 5 6 Modifiers: ")
+                    .AppendLine("Result: 12")
+                    .ToString());
             Add(
                 new DiceModifierSumRollResult
                 {
@@ -27,10 +28,10 @@ Result: 12
                 },
                 16,
                 "Player 1",
-                @"Player 1 Rolled: 1 5 6 5 Modifiers: 1 -2
-Result: 16
-"
-            );
+                new StringBuilder()
+                    .AppendLine("Player 1 Rolled: 1 5 6 5 Modifiers: 1 -2")
+                    .AppendLine("Result: 16")
+                    .ToString());
             Add(
                 new DiceModifierSumRollResult
                 {
@@ -38,10 +39,10 @@ Result: 16
                 },
                 -1,
                 "Player 1",
-                @"Player 1 Rolled:  Modifiers: 1 -2
-Result: -1
-"
-            );
+                new StringBuilder()
+                    .AppendLine("Player 1 Rolled:  Modifiers: 1 -2")
+                    .AppendLine("Result: -1")
+                    .ToString());
         }
     }
 
