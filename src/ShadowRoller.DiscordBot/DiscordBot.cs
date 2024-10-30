@@ -1,39 +1,77 @@
-using DSharpPlus;
-using DSharpPlus.EventArgs;
-using ShadowRoller.Domain.Contexts;
+﻿using DSharpPlus;
+using Microsoft.Extensions.Hosting;
 using ShadowRoller.Domain.Contexts.Dice;
 using ShadowRoller.Domain.Contexts.ShadowRun;
+using ShadowRoller.Domain.Contexts;
+using DSharpPlus.EventArgs;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace ShadowRoller.DiscordBot;
-
-public class DiscordBot
+internal class DiscordBot : IHostedService
 {
-    private readonly IRollContextParser<DiceRollContext, DiceModifierSumRollResult> _diceRollContextParser = new DiceRollContextParser();
-    private readonly IRollContextParser<ShadowRunRollContext, ShadowRunRollResult> _shadowRunRollContext = new ShadowRunContextParser();
-    private const string PREFIX = "!sr-";
-    private const string DELIMITER = " ";
-    private readonly CancellationTokenSource _cancellationTokenSource;
+    private readonly ILogger<DiscordBot> _logger;
+    private readonly DiscordClient _discordClient;
+    private readonly IRollContextParser<DiceRollContext, DiceModifierSumRollResult> _diceRollContextParser;
+    private readonly IRollContextParser<ShadowRunRollContext, ShadowRunRollResult> _shadowRunRollContext;
+    private readonly string _prefix;
+    private readonly string _delimiter;
+    private readonly IHostApplicationLifetime _hostApplicationLifetime;
 
-    public DiscordBot(DiscordClient discordClient, CancellationTokenSource cancellationTokenSource)
+    public DiscordBot(ILogger<DiscordBot> logger, IOptions<DiscordBotOptions> options,
+        IRollContextParser<DiceRollContext, DiceModifierSumRollResult> diceRollContextParser,
+        IRollContextParser<ShadowRunRollContext, ShadowRunRollResult> shadowRunRollContext,
+        IHostApplicationLifetime hostApplicationLifetime)
     {
-        _cancellationTokenSource = cancellationTokenSource;
-        discordClient.MessageCreated += OnMessageCreated;
+        _logger = logger;
+
+        if (string.IsNullOrWhiteSpace(options.Value.Token))
+        {
+            var ex = new ArgumentException("Token is missing. Please provide a token.");
+            _logger.LogError(ex, ex.Message);
+            throw ex;
+        }
+        _prefix = options.Value.Prefix;
+        _delimiter = options.Value.Delimiter;
+
+        _discordClient = new DiscordClient(
+            new DiscordConfiguration
+            {
+                AutoReconnect = true,
+                MinimumLogLevel = LogLevel.Information,
+                Token = options.Value.Token,
+                TokenType = TokenType.Bot,
+                Intents = DiscordIntents.GuildMessages | DiscordIntents.MessageContents
+            }
+        );
+
+        _diceRollContextParser = diceRollContextParser;
+        _shadowRunRollContext = shadowRunRollContext;
+
+        _hostApplicationLifetime = hostApplicationLifetime;
+    }
+
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("Hello, World! Starting this bot!");
+        _discordClient.MessageCreated += OnMessageCreated;
+        await _discordClient.ConnectAsync();
     }
 
     private async Task OnMessageCreated(DiscordClient sender, MessageCreateEventArgs e)
     {
-        if (!e.Message.Content.StartsWith(PREFIX, StringComparison.InvariantCultureIgnoreCase))
+        if (!e.Message.Content.StartsWith(_prefix, StringComparison.InvariantCultureIgnoreCase))
             return;
 
-        var messageParts = e.Message.Content.Split(DELIMITER).ToArray();
-        var command = messageParts.First().Replace(PREFIX, "").ToLower();
+        var messageParts = e.Message.Content.Split(_delimiter).ToArray();
+        var command = messageParts.First().Replace(_prefix, "").ToLower();
         var args = messageParts.Skip(1).ToArray();
 
         switch (command)
         {
             case "exit":
                 await sender.SendMessageAsync(e.Message.Channel, "Ok, I'm leaving");
-                _cancellationTokenSource.Cancel();
+                _hostApplicationLifetime.StopApplication();
                 break;
             case "sr5":
                 var srContext = _shadowRunRollContext.ParseToRollContext(args);
@@ -54,4 +92,9 @@ public class DiscordBot
         await sender.SendMessageAsync(e.Message.Channel, result);
     }
 
+    public async Task StopAsync(CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("Stopping Discord bot.");
+        await _discordClient.DisconnectAsync();
+    }
 }

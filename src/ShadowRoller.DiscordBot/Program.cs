@@ -1,40 +1,42 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using DSharpPlus;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using ShadowRoller.DiscordBot;
+using ShadowRoller.Domain.Contexts.Dice;
+using ShadowRoller.Domain.Contexts.ShadowRun;
+using ShadowRoller.Domain.Contexts;
 
-Console.WriteLine("Hello, World! Starting this bot!");
+static IHostBuilder CreateHostBuilder(string[] args) =>
+    Host.CreateDefaultBuilder(args)
+        .ConfigureAppConfiguration((hostingContext, config) =>
+        {
+            config.AddUserSecrets<Program>();
+            config.AddEnvironmentVariables();
+            config.AddJsonFile("appsettings.json", true, true);
+        })
+        .ConfigureLogging((hostContext, logging) =>
+        {
+            logging.AddConsole();
+        })
+        .ConfigureServices((hostContext, services) =>
+        {
+            services.Configure<DiscordBotOptions>(hostContext.Configuration.GetSection("DiscordBot"));
+            services.PostConfigure<DiscordBotOptions>(options =>
+            {
+                var config = hostContext.Configuration;
+                if (string.IsNullOrWhiteSpace(options.Token))
+                {
+                    options.Token = config["token"] ?? options.Token;
+                }
+            });
+            services.AddScoped<IRollContextParser<DiceRollContext, DiceModifierSumRollResult>, DiceRollContextParser>();
+            services.AddScoped<IRollContextParser<ShadowRunRollContext, ShadowRunRollResult>, ShadowRunContextParser>();
+            services.AddHostedService<DiscordBot>();
+        });
 
-var config = new ConfigurationBuilder()
-    .AddUserSecrets(typeof(Program).Assembly, true)
-    .AddEnvironmentVariables()
-    .Build();
+Console.WriteLine("Hello, World! Starting the host!");
 
-var token = config["token"];
-if (string.IsNullOrWhiteSpace(token))
-{
-    Console.WriteLine("Token is missing. Please provide a token.");
-    return;
-}
-
-var cancellationTokenSource = new CancellationTokenSource();
-
-var discordClient = new DiscordClient(
-    new DiscordConfiguration
-    {
-        AutoReconnect = true,
-        MinimumLogLevel = Microsoft.Extensions.Logging.LogLevel.Information,
-        Token = token,
-        TokenType = TokenType.Bot,
-        Intents = DiscordIntents.GuildMessages | DiscordIntents.MessageContents
-    }
-);
-
-var _ = new DiscordBot(discordClient, cancellationTokenSource);
-
-await discordClient.ConnectAsync();
-
-while (!cancellationTokenSource.IsCancellationRequested)
-{
-
-}
+var host = CreateHostBuilder(args).Build();
+await host.RunAsync();
