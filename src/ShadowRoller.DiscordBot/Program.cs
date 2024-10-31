@@ -12,9 +12,9 @@ static IHostBuilder CreateHostBuilder(string[] args) =>
     Host.CreateDefaultBuilder(args)
         .ConfigureAppConfiguration((hostingContext, config) =>
         {
+            config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
             config.AddUserSecrets<Program>();
             config.AddEnvironmentVariables();
-            config.AddJsonFile("appsettings.json", true, true);
         })
         .ConfigureLogging((hostContext, logging) =>
         {
@@ -22,15 +22,7 @@ static IHostBuilder CreateHostBuilder(string[] args) =>
         })
         .ConfigureServices((hostContext, services) =>
         {
-            services.Configure<DiscordBotOptions>(hostContext.Configuration.GetSection("DiscordBot"));
-            services.PostConfigure<DiscordBotOptions>(options =>
-            {
-                var config = hostContext.Configuration;
-                if (string.IsNullOrWhiteSpace(options.Token))
-                {
-                    options.Token = config["token"] ?? options.Token;
-                }
-            });
+            services.Configure<DiscordBotOptions>(hostContext.Configuration.GetSection(DiscordBotOptions.SECTIONNAME));
             services.AddScoped<IRollContextParser<DiceRollContext, DiceModifierSumRollResult>, DiceRollContextParser>();
             services.AddScoped<IRollContextParser<ShadowRunRollContext, ShadowRunRollResult>, ShadowRunContextParser>();
             services.AddHostedService<DiscordBot>();

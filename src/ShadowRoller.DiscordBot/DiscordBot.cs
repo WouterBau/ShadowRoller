@@ -18,22 +18,19 @@ internal class DiscordBot : IHostedService
     private readonly string _delimiter;
     private readonly IHostApplicationLifetime _hostApplicationLifetime;
 
-    public DiscordBot(ILogger<DiscordBot> logger, IOptions<DiscordBotOptions> options,
+    public DiscordBot(
+        ILogger<DiscordBot> logger,
+        IOptions<DiscordBotOptions> options,
         IRollContextParser<DiceRollContext, DiceModifierSumRollResult> diceRollContextParser,
         IRollContextParser<ShadowRunRollContext, ShadowRunRollResult> shadowRunRollContext,
         IHostApplicationLifetime hostApplicationLifetime)
     {
         _logger = logger;
 
-        if (string.IsNullOrWhiteSpace(options.Value.Token))
-        {
-            var ex = new ArgumentException("Token is missing. Please provide a token.");
-            _logger.LogError(ex, ex.Message);
-            throw ex;
-        }
+        OptionsValidation(options.Value);
+
         _prefix = options.Value.Prefix;
         _delimiter = options.Value.Delimiter;
-
         _discordClient = new DiscordClient(
             new DiscordConfiguration
             {
@@ -49,6 +46,31 @@ internal class DiscordBot : IHostedService
         _shadowRunRollContext = shadowRunRollContext;
 
         _hostApplicationLifetime = hostApplicationLifetime;
+    }
+
+    private void OptionsValidation(DiscordBotOptions options)
+    {
+        if (string.IsNullOrWhiteSpace(options.Token))
+        {
+            var ex = new ArgumentException("Token is missing. Please provide a token.");
+            _logger.LogError(ex, ex.Message);
+            throw ex;
+        }
+
+        if (string.IsNullOrWhiteSpace(options.Prefix))
+        {
+            var ex = new ArgumentException("Prefix is missing. Please provide a prefix.");
+            _logger.LogError(ex, ex.Message);
+            throw ex;
+        }
+
+        if (string.IsNullOrEmpty(options.Delimiter))
+        {
+            var ex = new ArgumentException("Delimiter is missing. Please provide a delimiter.");
+            _logger.LogError(ex, ex.Message);
+            throw ex;
+        }
+
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
